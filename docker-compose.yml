@@ -7,6 +7,8 @@ services:
     environment:
       - KAFKA_BROKER=my-kafka:9092
       - DB_HOST=postgres-db
+    ports:
+      - "8000:8000"
     networks:
       - app-network
 
