@@ -8,10 +8,9 @@ services:
     environment:
       - KAFKA_BROKER=my-kafka:9092
       - DB_HOST=postgres-db
-      # Добавь сюда переменные подключения к БД, если твой бэкенд их требует:
-      # - DB_USER=user
-      # - DB_PASSWORD=password
-      # - DB_NAME=tasktracker
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - DB_NAME=tasktracker
     ports:
       - "8000:8000"
     depends_on:
