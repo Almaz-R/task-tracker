@@ -9,5 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag task-tracker:latest
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ vars.SERVER_IP }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/task-tracker
+            git pull origin main
+            # Здесь будут команды для перезапуска Docker-контейнеров
