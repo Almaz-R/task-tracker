@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from sqlalchemy import create_engine
-from models import Base, Task  # Импортируем наши модели (чертежи таблиц)
+from .models import Base, Task  # Импортируем наши модели (чертежи таблиц)
 
 app = FastAPI()
 
