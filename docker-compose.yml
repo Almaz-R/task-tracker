@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   app:
     build: .
@@ -7,11 +8,33 @@ services:
     environment:
       - KAFKA_BROKER=my-kafka:9092
       - DB_HOST=postgres-db
+      # Добавь сюда переменные подключения к БД, если твой бэкенд их требует:
+      # - DB_USER=user
+      # - DB_PASSWORD=password
+      # - DB_NAME=tasktracker
     ports:
       - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tasktracker
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     networks:
       - app-network
 
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  pgdata:
