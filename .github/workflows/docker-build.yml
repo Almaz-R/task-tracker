@@ -22,4 +22,7 @@ jobs:
           script: |
             cd ~/task-tracker
             git pull origin main
-            # Здесь будут команды для перезапуска Docker-контейнеров
+            # Останавливаем старые контейнеры, если они есть
+            docker compose down
+            # Запускаем обновленную версию в фоновом режиме
+            docker compose up -d --build

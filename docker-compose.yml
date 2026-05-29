@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    container_name: task-tracker-app
+    restart: always
+    environment:
+      - KAFKA_BROKER=my-kafka:9092
+      - DB_HOST=postgres-db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
