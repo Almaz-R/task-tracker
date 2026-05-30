@@ -5,5 +5,5 @@ metadata:
 data:
   DB_HOST: "postgres-service"
   DB_USER: "postgres"
-  DB_NAME: "tasktracker"
+  DB_NAME: "postgres"
   KAFKA_BROKER: "kafka-service:9092"
