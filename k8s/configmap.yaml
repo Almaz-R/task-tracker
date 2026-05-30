@@ -4,6 +4,6 @@ metadata:
   name: app-config
 data:
   DB_HOST: "postgres-service"
-  DB_USER: "user"
+  DB_USER: "postgres"
   DB_NAME: "tasktracker"
   KAFKA_BROKER: "kafka-service:9092"

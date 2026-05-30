@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
       - name: backend
-        image: almaz8412/task-tracker:latest # Например: almaz/task-tracker:latest
+        image: almaz8412/task-tracker:latest  # Тот самый образ, который теперь в Docker Hub
         ports:
         - containerPort: 8000
         env:
         - name: DB_PASSWORD
-          value: "password" # В идеале использовать Secret, но пока для теста здесь
+          value: "password"
         envFrom:
         - configMapRef:
             name: app-config
