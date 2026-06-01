@@ -4,8 +4,13 @@ from fastapi import FastAPI
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 from aiokafka import AIOKafkaProducer
+# Импортируем инструмент для метрик
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI()
+
+# Инструментируем приложение и открываем эндпоинт /metrics
+Instrumentator().instrument(app).expose(app)
 
 # Настройки подключения к БД и Kafka
 DB_URL = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:5432/{os.getenv('DB_NAME')}"
