@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: all-services
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - name: backend
+        path: services/backend
+      - name: kafka
+        path: services/kafka
+      - name: database
+        path: services/database
+      - name: consumer
+        path: services/consumer
+  template:
+    metadata:
+      name: '{{name}}-app'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Almaz-R/task-tracker.git
+        targetRevision: main
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
