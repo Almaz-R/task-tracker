@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backend-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Almaz-R/task-tracker.git
+    targetRevision: main
+    path: services/kafka  # Указывает на твою папку с кодом и деплоем
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
