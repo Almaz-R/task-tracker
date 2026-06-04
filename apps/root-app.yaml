@@ -33,3 +33,14 @@ spec:
         automated:
           prune: true
           selfHeal: true
+      # ЭТОТ БЛОК ИСПРАВИТ ОРАНЖЕВЫЙ СТАТУС:
+      ignoreDifferences:
+      - group: apps
+        kind: Deployment
+        jsonPointers:
+        - /spec/replicas
+        - /status
+      - group: ""
+        kind: Service
+        jsonPointers:
+        - /status
