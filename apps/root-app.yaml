@@ -16,7 +16,7 @@ spec:
       - name: consumer
         path: services/consumer
       - name: monitoring
-      path: services/monitoring
+        path: services/monitoring
   template:
     metadata:
       name: '{{name}}-app'
