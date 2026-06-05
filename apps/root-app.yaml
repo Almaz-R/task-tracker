@@ -41,7 +41,22 @@ spec:
             - /spec/replicas
             - /status
             - /spec/template/metadata/labels
+            - /metadata/resourceVersion
+            - /metadata/uid
+            - /metadata/generation
+            - /metadata/annotations/deployment.kubernetes.io~1revision
+            - /spec/template/spec/containers/0/terminationMessagePath
+            - /spec/template/spec/containers/0/terminationMessagePolicy
+            - /spec/template/spec/containers/0/imagePullPolicy
+            - /spec/template/spec/dnsPolicy
+            - /spec/template/spec/restartPolicy
+            - /spec/template/spec/schedulerName
+            - /spec/template/spec/securityContext
+            - /spec/template/spec/terminationGracePeriodSeconds
         - group: ""
           kind: Service
           jsonPointers:
             - /status
+            - /metadata/resourceVersion
+            - /metadata/uid
+            - /metadata/generation
