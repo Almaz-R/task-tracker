@@ -17,8 +17,8 @@ jobs:
       - name: Build and push Backend
         uses: docker/build-push-action@v4
         with:
-          context: . # Контекст - корень проекта
-          file: ./services/backend/Dockerfile # Точный путь к файлу
+          context: ./services/backend  # Контекст сборки - папка бэкенда
+          file: ./services/backend/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/task-tracker:latest
@@ -35,8 +35,8 @@ jobs:
       - name: Build and push Consumer
         uses: docker/build-push-action@v4
         with:
-          context: . # Контекст - корень проекта
-          file: ./services/consumer/Dockerfile # Точный путь к файлу
+          context: ./services/consumer  # Контекст сборки - папка консьюмера
+          file: ./services/consumer/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/consumer:latest
