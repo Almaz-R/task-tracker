@@ -1,31 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"kafka-ui-service","namespace":"default"},"spec":{"ports":[{"port":80,"targetPort":8080}],"selector":{"app":"kafka-ui"}}}
-  creationTimestamp: "2026-05-24T10:23:18Z"
   name: kafka-ui-service
   namespace: default
-  resourceVersion: "125739"
-  uid: 1f30ecff-9d17-49c5-b504-28284ac7a0c1
 spec:
-  clusterIP: 10.43.93.168
-  clusterIPs:
-  - 10.43.93.168
-  externalTrafficPolicy: Cluster
-  internalTrafficPolicy: Cluster
-  ipFamilies:
-  - IPv4
-  ipFamilyPolicy: SingleStack
-  ports:
-  - nodePort: 31221
-    port: 80
-    protocol: TCP
-    targetPort: 8080
   selector:
     app: kafka-ui
-  sessionAffinity: None
-  type: NodePort
-status:
-  loadBalancer: {}
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP
