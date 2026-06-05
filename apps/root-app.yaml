@@ -68,3 +68,4 @@ spec:
             - /spec/internalTrafficPolicy
             - /spec/externalTrafficPolicy
             - /spec/ports
+            - /metadata/labels
