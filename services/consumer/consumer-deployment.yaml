@@ -15,5 +15,25 @@ spec:
     spec:
       containers:
       - name: consumer
-        image: almaz8412/task-tracker:latest # Замени на свой репозиторий DockerHub
+        image: almaz8412/consumer:latest
         imagePullPolicy: Always
+        env:
+        # Адрес Кафки: используй имя сервиса кафки, который есть в кластере
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka-service:9092"
+
+        # Настройки базы данных
+        - name: DB_HOST
+          value: "postgres-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "postgres"
+        - name: DB_USER
+          value: "postgres"
+        - name: DB_PASSWORD
+          value: "password" # Замени на свой реальный пароль
+
+        # Название топика, который нужно читать
+        - name: KAFKA_TOPIC
+          value: "tasks"
