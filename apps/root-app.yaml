@@ -34,7 +34,7 @@ spec:
           prune: true
           selfHeal: false
       # ЭТОТ БЛОК ИСПРАВИТ ОРАНЖЕВЫЙ СТАТУС:
-      ignoreDifferences:
+ignoreDifferences:
         - group: apps
           kind: Deployment
           jsonPointers:
@@ -44,7 +44,7 @@ spec:
             - /metadata/resourceVersion
             - /metadata/uid
             - /metadata/generation
-            - /metadata/annotations/deployment.kubernetes.io~1revision
+            - /metadata/annotations
             - /spec/template/spec/containers/0/terminationMessagePath
             - /spec/template/spec/containers/0/terminationMessagePolicy
             - /spec/template/spec/containers/0/imagePullPolicy
@@ -60,9 +60,9 @@ spec:
             - /metadata/resourceVersion
             - /metadata/uid
             - /metadata/generation
+            - /metadata/annotations
             - /spec/clusterIP
             - /spec/clusterIPs
             - /spec/internalTrafficPolicy
-            - /spec/ports/0/nodePort
-            - /spec/ports/1/nodePort
             - /spec/externalTrafficPolicy
+            - /spec/ports
