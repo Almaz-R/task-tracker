@@ -32,7 +32,7 @@ spec:
       syncPolicy:
         automated:
           prune: true
-          selfHeal: true
+          selfHeal: false
       # ЭТОТ БЛОК ИСПРАВИТ ОРАНЖЕВЫЙ СТАТУС:
       ignoreDifferences:
         - group: apps
