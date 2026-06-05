@@ -15,5 +15,5 @@ spec:
     spec:
       containers:
       - name: consumer
-        image: almaz8412/kafka-consumer:latest # Замени на свой репозиторий DockerHub
+        image: almaz8412/task-tracker:latest # Замени на свой репозиторий DockerHub
         imagePullPolicy: Always
