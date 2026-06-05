@@ -9,4 +9,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8000
-  type: ClusterIP
+  type: ClusterIP # Если бэкенд не должен торчать наружу через IP узла, используй ClusterIP

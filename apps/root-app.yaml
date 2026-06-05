@@ -33,8 +33,10 @@ spec:
         automated:
           prune: true
           selfHeal: false
-      # ЭТОТ БЛОК ИСПРАВИТ ОРАНЖЕВЫЙ СТАТУС:
-ignoreDifferences:
+        syncOptions:
+          - ServerSideApply=true
+      # ВАЖНО: ignoreDifferences должен быть ВНУТРИ spec
+      ignoreDifferences:
         - group: apps
           kind: Deployment
           jsonPointers:
