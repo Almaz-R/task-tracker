@@ -35,12 +35,13 @@ spec:
           selfHeal: true
       # ЭТОТ БЛОК ИСПРАВИТ ОРАНЖЕВЫЙ СТАТУС:
       ignoreDifferences:
-      - group: apps
-        kind: Deployment
-        jsonPointers:
-        - /spec/replicas
-        - /status
-      - group: ""
-        kind: Service
-        jsonPointers:
-        - /status
+        - group: apps
+          kind: Deployment
+          jsonPointers:
+            - /spec/replicas
+            - /status
+            - /spec/template/metadata/labels
+        - group: ""
+          kind: Service
+          jsonPointers:
+            - /status
