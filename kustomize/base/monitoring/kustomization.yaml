@@ -7,3 +7,4 @@ resources:
   - grafana-config.yaml
   - grafana-dashboards.yaml
   - grafana-secret.yaml
+  - grafana-dashboards-config.yaml
