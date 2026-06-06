@@ -207,7 +207,7 @@ spec:
           name: search
         - mountPath: /tmp/dashboards
           name: sc-dashboard-volume
-        - mountPath: /etc/grafana/provisioning/dashboards/sc-dashboardproviders.yaml
+        - mountPath: /etc/grafana/provisioning/dashboards/provider.yaml
           name: sc-dashboard-provider
           subPath: provider.yaml
         - mountPath: /etc/grafana/provisioning/datasources
