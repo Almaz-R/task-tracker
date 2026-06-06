@@ -5,37 +5,37 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - name: backend
-        path: kustomize/base/backend
-      - name: kafka
-        path: kustomize/base/kafka
-      - name: database
-        path: kustomize/base/database
-      - name: consumer
-        path: kustomize/base/consumer
-      - name: monitoring
-        path: kustomize/base/monitoring
+  - matrix:
+      generators:
+      - list:
+          elements:
+          - name: backend
+          - name: kafka
+          - name: database
+          - name: consumer
+          - name: monitoring
+      - list:
+          elements:
+          - env: test
+          - env: prod
   template:
     metadata:
-      name: '{{name}}-app'
+      name: '{{env}}-{{name}}'
     spec:
       project: default
       source:
         repoURL: https://github.com/Almaz-R/task-tracker.git
         targetRevision: main
-        path: '{{path}}'
+        path: kustomize/overlays/{{env}} # Арго будет брать оверлей
       destination:
         server: https://kubernetes.default.svc
-        namespace: default
+        namespace: '{{env}}' # И деплоить в разные неймспейсы
       syncPolicy:
         automated:
           prune: true
-          selfHeal: false
+          selfHeal: true
         syncOptions:
           - ServerSideApply=true
-      # ВАЖНО: ignoreDifferences должен быть ВНУТРИ spec
       ignoreDifferences:
         - group: apps
           kind: Deployment
