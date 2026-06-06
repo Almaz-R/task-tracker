@@ -6,3 +6,4 @@ resources:
   - service-account.yaml
   - grafana-config.yaml
   - grafana-dashboards.yaml
+  - grafana-secret.yaml
