@@ -5,6 +5,5 @@ resources:
   - grafana-svc.yaml
   - service-account.yaml
   - grafana-config.yaml
-  - grafana-dashboards.yaml
   - grafana-secret.yaml
   - grafana-dashboards-config.yaml
