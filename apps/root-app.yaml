@@ -26,15 +26,16 @@ spec:
       source:
         repoURL: https://github.com/Almaz-R/task-tracker.git
         targetRevision: main
-        path: kustomize/overlays/{{env}} # Арго будет брать оверлей
+        path: kustomize/overlays/{{env}}/{{name}}
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{env}}' # И деплоить в разные неймспейсы
+        namespace: 'task-tracker-{{env}}'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
+          - CreateNamespace=true
           - ServerSideApply=true
       ignoreDifferences:
         - group: apps
