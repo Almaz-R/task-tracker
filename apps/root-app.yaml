@@ -8,15 +8,15 @@ spec:
   - list:
       elements:
       - name: backend
-        path: services/backend
+        path: kustomize/base/backend
       - name: kafka
-        path: services/kafka
+        path: kustomize/base/kafka
       - name: database
-        path: services/database
+        path: kustomize/base/database
       - name: consumer
-        path: services/consumer
+        path: kustomize/base/consumer
       - name: monitoring
-        path: services/monitoring
+        path: kustomize/base/monitoring
   template:
     metadata:
       name: '{{name}}-app'
