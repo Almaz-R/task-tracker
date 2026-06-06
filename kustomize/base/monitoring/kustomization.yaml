@@ -4,3 +4,5 @@ resources:
   - grafana-deployment.yaml
   - grafana-svc.yaml
   - service-account.yaml
+  - grafana-config.yaml
+  - grafana-dashboards.yaml
