@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - grafana-deployment.yaml
   - grafana-svc.yaml
+  - service-account.yaml
