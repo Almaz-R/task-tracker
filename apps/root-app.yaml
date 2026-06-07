@@ -1,3 +1,4 @@
+# 1. Генератор для всех микросервисов (test/prod)
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -71,6 +72,7 @@ spec:
             - /spec/ports
             - /metadata/labels
 ---
+# 2. Отдельное статичное приложение для системного ингресса
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -91,3 +93,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - Replace=true
