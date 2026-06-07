@@ -16,7 +16,7 @@ spec:
       values: |
         controller:
           service:
-            type: LoadBalancer
+            type: ClusterIP  # <--- Ключевое изменение: сменили с LoadBalancer на ClusterIP
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
@@ -27,11 +27,3 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
-  ignoreDifferences:
-    - group: ""
-      kind: Service
-      name: ingress-nginx-controller
-      jsonPointers:
-        - /status
-        - /spec/clusterIP
-        - /spec/clusterIPs
