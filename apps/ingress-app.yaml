@@ -32,9 +32,6 @@ spec:
       kind: Service
       name: ingress-nginx-controller
       jsonPointers:
-        - /status/loadBalancer
-    - group: apps
-      kind: Deployment
-      name: ingress-nginx-controller
-      jsonPointers:
         - /status
+        - /spec/clusterIP
+        - /spec/clusterIPs
