@@ -3,8 +3,9 @@ kind: Ingress
 metadata:
   name: backend-ingress
   annotations:
-    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx # Добавь эту строку
   rules:
   - host: backend-test.task-tracker.local
     http:
