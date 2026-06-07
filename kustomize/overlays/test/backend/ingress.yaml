@@ -2,10 +2,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: backend-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  # Аннотации удалены, чтобы не искажать пути запросов
 spec:
-  ingressClassName: nginx # Добавь эту строку
+  ingressClassName: nginx
   rules:
   - host: backend-test.task-tracker.local
     http:
