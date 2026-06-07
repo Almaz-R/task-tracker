@@ -27,3 +27,17 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+    ignoreDifferences:
+      - group: ""
+        kind: Service
+        name: ingress-nginx-controller
+        jsonPointers:
+          - /status
+          - /spec/clusterIP
+          - /spec/clusterIPs
+          - /spec/type
+      - group: apps
+        kind: Deployment
+        name: ingress-nginx-controller
+        jsonPointers:
+          - /status
