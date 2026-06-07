@@ -16,9 +16,13 @@ spec:
       values: |
         controller:
           service:
-            type: LoadBalancer
-            externalIPs:
-            - 111.88.150.58
+            type: NodePort
+            nodePorts:
+              http: 30080
+              https: 30443
+          containerPort:
+            http: 8080
+            https: 8443
           admissionWebhooks:
             enabled: false
   destination:
