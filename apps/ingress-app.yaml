@@ -15,9 +15,10 @@ spec:
       releaseName: ingress-nginx
       values: |
         controller:
-          hostNetwork: true
           service:
-            type: ClusterIP
+            type: LoadBalancer
+            externalIPs:
+            - 111.88.150.58
           admissionWebhooks:
             enabled: false
   destination:
