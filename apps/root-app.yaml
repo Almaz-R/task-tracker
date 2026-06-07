@@ -84,6 +84,9 @@ spec:
     repoURL: https://github.com/Almaz-R/task-tracker.git
     targetRevision: main
     path: kustomize/ingress-nginx
+    # Явно указываем, что это Kustomize, а не Helm
+    plugin:
+      name: kustomize
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
@@ -93,4 +96,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - Replace=true
+      - ServerSideApply=true # Это лучше чем Replace для Kubernetes 1.25+
