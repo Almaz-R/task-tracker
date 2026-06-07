@@ -15,11 +15,11 @@ spec:
       releaseName: ingress-nginx
       values: |
         controller:
+          hostNetwork: true
           service:
-            type: NodePort
-            nodePorts:
-              http: 30080
-              https: 30443
+            type: ClusterIP
+          admissionWebhooks:
+            enabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
