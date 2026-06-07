@@ -93,4 +93,13 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - ServerSideApply=true # Это лучше чем Replace для Kubernetes 1.25+
+      - ServerSideApply=true
+  # ДОБАВЬТЕ ЭТОТ БЛОК:
+  ignoreDifferences:
+    - group: ""
+      kind: Service
+      name: ingress-nginx-controller
+      jsonPointers:
+        - /status
+        - /spec/clusterIP
+        - /spec/clusterIPs
