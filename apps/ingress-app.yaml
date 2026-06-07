@@ -15,8 +15,9 @@ spec:
       releaseName: ingress-nginx
       values: |
         controller:
+          hostNetwork: true
           service:
-            type: ClusterIP  # <--- Ключевое изменение: сменили с LoadBalancer на ClusterIP
+            type: ClusterIP
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
