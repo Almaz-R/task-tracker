@@ -5,25 +5,32 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - merge:
-      generators:
-      - matrix:
-          generators:
-          - list:
-              elements:
-              - name: backend
-              - name: kafka
-              - name: database
-              - name: consumer
-              - name: monitoring
-          - list:
-              elements:
-              - env: test
-              - env: prod
-      - list:
-          elements:
-          - name: ingress-nginx
-            env: system
+  - list:
+      elements:
+      # Сервисы
+      - name: backend
+        env: test
+      - name: backend
+        env: prod
+      - name: kafka
+        env: test
+      - name: kafka
+        env: prod
+      - name: database
+        env: test
+      - name: database
+        env: prod
+      - name: consumer
+        env: test
+      - name: consumer
+        env: prod
+      - name: monitoring
+        env: test
+      - name: monitoring
+        env: prod
+      # Ингресс
+      - name: ingress-nginx
+        env: system
   template:
     metadata:
       name: '{{#if (eq env "system")}}{{name}}{{else}}{{env}}-{{name}}{{/if}}'
