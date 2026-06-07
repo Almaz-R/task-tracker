@@ -28,7 +28,13 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
   ignoreDifferences:
-    - group: "*"
-      kind: "*"
+    - group: ""
+      kind: Service
+      name: ingress-nginx-controller
+      jsonPointers:
+        - /status/loadBalancer
+    - group: apps
+      kind: Deployment
+      name: ingress-nginx-controller
       jsonPointers:
         - /status
