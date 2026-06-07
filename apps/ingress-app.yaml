@@ -28,6 +28,12 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
   ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: ingress-nginx-controller
+      jsonPointers:
+        - /spec/replicas
+        - /status
     - group: ""
       kind: Service
       name: ingress-nginx-controller
