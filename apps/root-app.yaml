@@ -7,7 +7,6 @@ spec:
   generators:
   - list:
       elements:
-      # Сервисы
       - name: backend
         env: test
       - name: backend
@@ -28,21 +27,18 @@ spec:
         env: test
       - name: monitoring
         env: prod
-      # Ингресс
-      - name: ingress-nginx
-        env: system
   template:
     metadata:
-      name: '{{#if (eq env "system")}}{{name}}{{else}}{{env}}-{{name}}{{/if}}'
+      name: '{{env}}-{{name}}'
     spec:
       project: default
       source:
         repoURL: https://github.com/Almaz-R/task-tracker.git
         targetRevision: main
-        path: '{{#if (eq env "system")}}kustomize/ingress-nginx{{else}}kustomize/overlays/{{env}}/{{name}}{{/if}}'
+        path: kustomize/overlays/{{env}}/{{name}}
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{#if (eq env "system")}}ingress-nginx{{else}}task-tracker-{{env}}{{/if}}'
+        namespace: 'task-tracker-{{env}}'
       syncPolicy:
         automated:
           prune: true
