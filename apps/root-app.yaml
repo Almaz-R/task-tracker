@@ -84,9 +84,6 @@ spec:
     repoURL: https://github.com/Almaz-R/task-tracker.git
     targetRevision: main
     path: kustomize/ingress-nginx
-    # Явно указываем, что это Kustomize, а не Helm
-    plugin:
-      name: kustomize
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
