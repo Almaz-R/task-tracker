@@ -1,6 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: task-tracker-test # Это укажет Argo CD разворачивать этот сервис в тест-неймспейс
+namespace: task-tracker-test
 resources:
-  - ../../../base/kafka    # Ссылка на базовые манифесты бэкенда
-  - ingress.yaml
+- ../../../base/kafka
+- ingress.yaml
+patches:
+- target:
+    kind: Deployment
+    name: kafka-ui # Убедись, что имя совпадает с деплойментом
+  patch: |-
+    - op: add
+      path: /spec/template/spec/containers/0/env/-
+      value:
+        name: SERVER_SERVLET_CONTEXT_PATH
+        value: "/test/kafka"
