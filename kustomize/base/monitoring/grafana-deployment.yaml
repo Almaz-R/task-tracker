@@ -31,6 +31,11 @@ spec:
             secretKeyRef:
               name: prometheus-grafana
               key: admin-password
+        # Добавляем настройки для подпути
+        - name: GF_SERVER_ROOT_URL
+          value: "%(protocol)s://%(domain)s:%(http_port)s/test/grafana/"
+        - name: GF_SERVER_SERVE_FROM_SUB_PATH
+          value: "true"
         volumeMounts:
         - name: config
           mountPath: /etc/grafana/grafana.ini
