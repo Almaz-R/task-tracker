@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: task-tracker-test # Это укажет Argo CD разворачивать этот сервис в тест-неймспейс
 resources:
   - ../../../base/monitoring    # Ссылка на базовые манифесты бэкенда
+  - ingress.yaml
