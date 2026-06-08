@@ -4,14 +4,13 @@ metadata:
   name: kafka-ui-ingress
   namespace: task-tracker-test
   annotations:
-    # Используем регулярное выражение для корректного проксирования всех вложенных путей
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /kafka
 spec:
   ingressClassName: nginx
   rules:
   - http:
       paths:
-      - path: /kafka(/|$)(.*)
+      - path: /kafka
         pathType: Prefix
         backend:
           service:
