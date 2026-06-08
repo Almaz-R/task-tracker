@@ -4,7 +4,7 @@ metadata:
   name: ingress-nginx
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io
+    - resources-finalizer.argocd.argoproj.op
 spec:
   project: default
   source:
@@ -15,11 +15,12 @@ spec:
       releaseName: ingress-nginx
       values: |
         controller:
+          hostNetwork: false
           service:
             type: NodePort
             externalTrafficPolicy: Local
             nodePorts:
-              http: 30080
+              http: 30088
               https: 30443
           admissionWebhooks:
             enabled: false
@@ -33,17 +34,3 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
-    ignoreDifferences:
-      - group: ""
-        kind: Service
-        name: ingress-nginx-controller
-        jsonPointers:
-          - /status
-          - /spec/clusterIP
-          - /spec/clusterIPs
-          - /spec/type
-      - group: apps
-        kind: Deployment
-        name: ingress-nginx-controller
-        jsonPointers:
-          - /status
