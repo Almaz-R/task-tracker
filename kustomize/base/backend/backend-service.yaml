@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backend-service
+  namespace: task-tracker-test
 spec:
   selector:
     app: backend
@@ -9,4 +10,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8000
-  type: ClusterIP # Если бэкенд не должен торчать наружу через IP узла, используй ClusterIP
+  type: ClusterIP
