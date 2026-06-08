@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: task-tracker-test
 resources:
 - ../../../base/backend
+- ingress.yaml  # <--- Добавь эту строку
 patches:
 - target:
     kind: Deployment
