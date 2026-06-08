@@ -6,13 +6,8 @@ resources:
 - ingress.yaml
 patches:
 - target:
-    kind: ConfigMap
+    kind: Deployment
     name: prometheus-grafana
   patch: |-
-    - op: replace
-      path: /data/grafana.ini
-      value: |
-        [server]
-        http_port = 3000
-        root_url = %(protocol)s://%(domain)s:%(http_port)s/prod/grafana/
-        serve_from_sub_path = true
+    - op: remove
+      path: /spec/template/spec/containers/0/env/2
