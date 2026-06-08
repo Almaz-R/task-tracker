@@ -7,10 +7,15 @@ resources:
 patches:
 - target:
     kind: Deployment
-    name: kafka-ui # Убедись, что имя совпадает с деплойментом
+    name: kafka-ui
   patch: |-
     - op: add
       path: /spec/template/spec/containers/0/env/-
       value:
         name: SERVER_SERVLET_CONTEXT_PATH
+        value: "/test/kafka"
+    - op: add
+      path: /spec/template/spec/containers/0/env/-
+      value:
+        name: PROXY_PATH
         value: "/test/kafka"
