@@ -3,12 +3,16 @@ kind: Ingress
 metadata:
   name: backend-ingress
   namespace: task-tracker-test
+  annotations:
+    # Важно: $2 — это то, что попадает в захват (.*) в пути
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
   - http:
       paths:
-      - path: /test/backend
+      # Захватываем всё, что идет после /test/backend
+      - path: /test/backend(/|$)(.*)
         pathType: Prefix
         backend:
           service:
