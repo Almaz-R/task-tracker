@@ -4,13 +4,13 @@ metadata:
   name: kafka-ui-ingress
   namespace: task-tracker-test
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # Удаляем rewrite-target, он здесь больше не нужен
+    kubernetes.io/ingress.class: nginx
 spec:
-  ingressClassName: nginx
   rules:
   - http:
       paths:
-      - path: /kafka(/|$)(.*)
+      - path: /kafka
         pathType: Prefix
         backend:
           service:

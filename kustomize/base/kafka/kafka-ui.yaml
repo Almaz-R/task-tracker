@@ -21,7 +21,7 @@ spec:
           value: local-k3s
         - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
           value: kafka-service:9092
-        # Эта переменная критически важна:
+        # ВАЖНО: Указываем контекстный путь
         - name: SERVER_SERVLET_CONTEXT_PATH
           value: "/kafka"
         ports:
