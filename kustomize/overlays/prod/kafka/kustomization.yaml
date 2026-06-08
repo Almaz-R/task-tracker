@@ -5,17 +5,4 @@ resources:
 - ../../../base/kafka
 - ingress.yaml
 patches:
-- target:
-    kind: Deployment
-    name: kafka-ui
-  patch: |-
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: SERVER_SERVLET_CONTEXT_PATH
-        value: "/prod/kafka"
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: PROXY_PATH
-        value: "/prod/kafka"
+- path: deployment-patch.yaml
