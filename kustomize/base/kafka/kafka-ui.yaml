@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: kafka-ui
   namespace: task-tracker-test
-  labels:
-    app: kafka-ui
 spec:
   replicas: 1
   selector:
@@ -18,14 +16,13 @@ spec:
       containers:
       - name: kafka-ui
         image: provectuslabs/kafka-ui:latest
-        imagePullPolicy: Always
         env:
         - name: KAFKA_CLUSTERS_0_NAME
           value: local-k3s
         - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
           value: kafka-service:9092
+        # Эта переменная критически важна:
         - name: SERVER_SERVLET_CONTEXT_PATH
           value: "/kafka"
         ports:
         - containerPort: 8080
-          name: http
