@@ -17,12 +17,10 @@ spec:
         controller:
           service:
             type: NodePort
+            externalTrafficPolicy: Local
             nodePorts:
               http: 30080
               https: 30443
-          containerPort:
-            http: 8080
-            https: 8443
           admissionWebhooks:
             enabled: false
   destination:
