@@ -5,4 +5,12 @@ resources:
 - ../../../base/kafka
 - ingress.yaml
 patches:
-- path: deployment-patch.yaml
+- target:
+    group: apps
+    version: v1
+    kind: Deployment
+    name: kafka-ui
+  patch: |-
+    - op: replace
+      path: /spec/template/spec/containers/0/env/2/value
+      value: "/prod/kafka"
