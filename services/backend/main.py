@@ -4,10 +4,10 @@ from fastapi import FastAPI
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 from aiokafka import AIOKafkaProducer
-# Импортируем инструмент для метрик
 from prometheus_fastapi_instrumentator import Instrumentator
 
-app = FastAPI()
+# Инициализируем приложение с поддержкой root_path
+app = FastAPI(root_path=os.getenv("ROOT_PATH", ""))
 
 # Инструментируем приложение и открываем эндпоинт /metrics
 Instrumentator().instrument(app).expose(app)
@@ -20,34 +20,27 @@ engine = create_engine(DB_URL)
 SessionLocal = sessionmaker(bind=engine)
 Base = declarative_base()
 
-
 class Task(Base):
     __tablename__ = "tasks"
     id = Column(Integer, primary_key=True, index=True)
     task_name = Column(String)
 
-
 # Глобальная переменная для продюсера Kafka
 producer = None
-
 
 @app.on_event("startup")
 async def startup_event():
     global producer
     Base.metadata.create_all(bind=engine)
-    # Инициализация Kafka продюсера
     producer = AIOKafkaProducer(bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS)
     await producer.start()
-
 
 @app.on_event("shutdown")
 async def shutdown_event():
     await producer.stop()
 
-
 @app.post("/tasks")
 async def create_task(task_name: str):
-    # 1. Сохраняем в БД
     db = SessionLocal()
     new_task = Task(task_name=task_name)
     db.add(new_task)
@@ -55,7 +48,6 @@ async def create_task(task_name: str):
     db.refresh(new_task)
     db.close()
 
-    # 2. Отправляем событие в Kafka
     message = {"task_id": new_task.id, "task_name": task_name}
     await producer.send_and_wait("task-created", json.dumps(message).encode("utf-8"))
 
