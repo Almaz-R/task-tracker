@@ -10,7 +10,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /test/grafana
+      - path: /test/grafana(/|$)(.*) # Захватываем всё после /test/grafana
         pathType: Prefix
         backend:
           service:
