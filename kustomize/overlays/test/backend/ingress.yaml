@@ -4,14 +4,15 @@ metadata:
   name: backend-ingress
   namespace: task-tracker-test
   annotations:
-    # 1. Используем regex, чтобы отрезать префикс
+    # 1. Указываем nginx отрезать префикс /test/backend
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
   - http:
       paths:
-      # 2. Паттерн: ловим /test/backend и всё, что идет после него
+      # 2. Ловим всё, что начинается с /test/backend
+      # (.*) захватывает всё, что идет ПОСЛЕ /test/backend, в переменную $2
       - path: /test/backend(/|$)(.*)
         pathType: Prefix
         backend:
