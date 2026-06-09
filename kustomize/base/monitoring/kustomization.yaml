@@ -6,3 +6,4 @@ resources:
   - service-account.yaml
   - grafana-config.yaml
   - grafana-secret.yaml
+  - grafana-svc-prod.yaml
