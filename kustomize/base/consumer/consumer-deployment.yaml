@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka-consumer
-  namespace: default
 spec:
   replicas: 1
   selector:
@@ -18,11 +17,12 @@ spec:
         image: almaz8412/consumer:latest
         imagePullPolicy: Always
         env:
-        # Адрес Кафки: используй имя сервиса кафки, который есть в кластере
         - name: KAFKA_BOOTSTRAP_SERVERS
           value: "kafka-service:9092"
-
-        # Настройки базы данных
+        - name: KAFKA_TOPIC
+          value: "task-created"
+        - name: KAFKA_GROUP_ID
+          value: "consumer-group"
         - name: DB_HOST
           value: "postgres-service"
         - name: DB_PORT
@@ -31,9 +31,9 @@ spec:
           value: "postgres"
         - name: DB_USER
           value: "postgres"
+        # Пароль теперь берется из секрета
         - name: DB_PASSWORD
-          value: "password" # Замени на свой реальный пароль
-
-        # Название топика, который нужно читать
-        - name: KAFKA_TOPIC
-          value: "tasks"
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DB_PASSWORD
