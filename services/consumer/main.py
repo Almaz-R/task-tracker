@@ -7,7 +7,7 @@ from aiokafka import AIOKafkaConsumer
 async def consume():
     # Читаем переменные из окружения K8s
     kafka_servers = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'kafka-service:9092')
-    kafka_topic = os.getenv('KAFKA_TOPIC', 'tasks')
+    kafka_topic = os.getenv('KAFKA_TOPIC', 'task-created')
     group_id = os.getenv('KAFKA_GROUP_ID', 'consumer-group')
 
     consumer = AIOKafkaConsumer(
