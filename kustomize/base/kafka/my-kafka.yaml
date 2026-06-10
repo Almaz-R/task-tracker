@@ -1,41 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    deployment.kubernetes.io/revision: "2"
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"my-kafka","namespace":"default"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"my-kafka"}},"template":{"metadata":{"labels":{"app":"my-kafka"}},"spec":{"containers":[{"env":[{"name":"ZOOKEEPER_CLIENT_PORT","value":"2181"}],"image":"confluentinc/cp-zookeeper:7.5.0","name":"zookeeper"},{"env":[{"name":"KAFKA_ZOOKEEPER_CONNECT","value":"localhost:2181"},{"name":"KAFKA_LISTENERS","value":"INTERNAL://0.0.0.0:9092"},{"name":"KAFKA_ADVERTISED_LISTENERS","value":"INTERNAL://localhost:9092"},{"name":"KAFKA_LISTENER_SECURITY_PROTOCOL_MAP","value":"INTERNAL:PLAINTEXT"},{"name":"KAFKA_INTER_BROKER_LISTENER_NAME","value":"INTERNAL"}],"image":"confluentinc/cp-kafka:7.5.0","name":"kafka"}]}}}}
-  generation: 2
   name: my-kafka
-  namespace: default
 spec:
-  progressDeadlineSeconds: 600
   replicas: 1
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: my-kafka
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
         app: my-kafka
     spec:
       containers:
-      - env:
+      - name: zookeeper
+        image: confluentinc/cp-zookeeper:7.5.0
+        env:
         - name: ZOOKEEPER_CLIENT_PORT
           value: "2181"
-        image: confluentinc/cp-zookeeper:7.5.0
-        imagePullPolicy: IfNotPresent
-        name: zookeeper
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      - env:
+      - name: kafka
+        image: confluentinc/cp-kafka:7.5.0
+        env:
         - name: KAFKA_ZOOKEEPER_CONNECT
           value: localhost:2181
         - name: KAFKA_LISTENERS
@@ -46,14 +31,15 @@ spec:
           value: INTERNAL:PLAINTEXT
         - name: KAFKA_INTER_BROKER_LISTENER_NAME
           value: INTERNAL
-        image: confluentinc/cp-kafka:7.5.0
-        imagePullPolicy: IfNotPresent
-        name: kafka
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
+        # Параметры для одного брокера
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: "1"
+        - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+          value: "1"
+        - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+          value: "1"
+        # Улучшение стабильности при запуске
+        - name: KAFKA_MIN_INSYNC_REPLICAS
+          value: "1"
+        - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
+          value: "true"
