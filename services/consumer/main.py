@@ -26,7 +26,7 @@ async def consume():
         async for msg in consumer:
             print(f"DEBUG: Got raw message from partition {msg.partition} at offset {msg.offset}")
             task = msg.value
-            print(f"DEBUG: Parsed task data: {task}")
+            print(f"DEBUG: Parsed task data: {task}", flush=True)
 
             # Логика обработки
             await asyncio.sleep(1)
