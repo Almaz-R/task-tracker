@@ -20,6 +20,7 @@ jobs:
       - name: Run tests
         run: |
           cd services/backend
+          export PYTHONPATH=$PYTHONPATH:.
           pytest tests/
 
   build-backend:
