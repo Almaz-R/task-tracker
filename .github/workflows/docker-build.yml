@@ -5,7 +5,25 @@ on:
     branches: [ main ]
 
 jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          cd services/backend
+          pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          cd services/backend
+          pytest tests/
+
   build-backend:
+    needs: test-backend  # Билд начнется только если тесты пройдут
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,7 +35,7 @@ jobs:
       - name: Build and push Backend
         uses: docker/build-push-action@v4
         with:
-          context: ./services/backend  # Контекст сборки - папка бэкенда
+          context: ./services/backend
           file: ./services/backend/Dockerfile
           platforms: linux/amd64
           push: true
@@ -35,7 +53,7 @@ jobs:
       - name: Build and push Consumer
         uses: docker/build-push-action@v4
         with:
-          context: ./services/consumer  # Контекст сборки - папка консьюмера
+          context: ./services/consumer
           file: ./services/consumer/Dockerfile
           platforms: linux/amd64
           push: true

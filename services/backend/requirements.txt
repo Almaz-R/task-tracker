@@ -1,8 +1,9 @@
 fastapi
 uvicorn
-fastapi
-uvicorn
 sqlalchemy
 psycopg2-binary
 aiokafka
 prometheus-fastapi-instrumentator
+pytest
+httpx
+pytest-asyncio
