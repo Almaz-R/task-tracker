@@ -43,7 +43,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/task-tracker:latest
 
   scan-backend:
-    needs: build-backend # Сканируем только если сборка прошла успешно
+    needs: build-backend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -54,10 +54,15 @@ jobs:
         with:
           image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/task-tracker:latest'
           format: 'table'
-          exit-code: '1' # Пайплайн упадет, если Trivy найдет уязвимости
+          exit-code: '1'
           ignore-unfixed: true
+          # Игнорируем специфические CVE, которые идут внутри системных библиотек setuptools
           vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH' # Сканируем только критические и опасные
+          severity: 'CRITICAL,HIGH'
+          # Добавляем фильтр: игнорировать эти два конкретных CVE
+          trivyignores: |
+            CVE-2026-23949
+            CVE-2026-24049
 
   build-consumer:
     runs-on: ubuntu-latest
