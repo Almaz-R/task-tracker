@@ -42,6 +42,23 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/task-tracker:latest
 
+  scan-backend:
+    needs: build-backend # Сканируем только если сборка прошла успешно
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ secrets.DOCKERHUB_USERNAME }}/task-tracker:latest'
+          format: 'table'
+          exit-code: '1' # Пайплайн упадет, если Trivy найдет уязвимости
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH' # Сканируем только критические и опасные
+
   build-consumer:
     runs-on: ubuntu-latest
     steps:
