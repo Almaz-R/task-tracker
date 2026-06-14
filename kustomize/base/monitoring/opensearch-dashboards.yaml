@@ -18,6 +18,10 @@ spec:
         env:
         - name: OPENSEARCH_HOSTS
           value: '["https://opensearch-service:9200"]'
+        - name: SERVER_BASEPATH
+          value: "/opensearch"
+        - name: SERVER_REWRITE_BASEPATH
+          value: "true"
         ports:
         - containerPort: 5601
 ---
