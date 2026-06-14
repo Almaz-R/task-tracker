@@ -6,3 +6,6 @@ resources:
   - service-account.yaml
   - grafana-config.yaml
   - grafana-secret.yaml
+  - opensearch-statefulset.yaml
+  - opensearch-dashboards.yaml
+  - fluent-bit-config.yaml

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: opensearch
+spec:
+  serviceName: opensearch
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opensearch
+  template:
+    metadata:
+      labels:
+        app: opensearch
+    spec:
+      containers:
+      - name: opensearch
+        image: opensearchproject/opensearch:2.11.0
+        env:
+        - name: cluster.name
+          value: "k8s-logs"
+        - name: node.name
+          value: "os-node-0"
+        - name: discovery.type
+          value: "single-node"
+        - name: OPENSEARCH_INITIAL_ADMIN_PASSWORD
+          value: "Admin12345!" # Рекомендую сменить после первого запуска
+        ports:
+        - containerPort: 9200
+          name: rest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opensearch-service
+spec:
+  selector:
+    app: opensearch
+  ports:
+    - port: 9200
+      targetPort: 9200

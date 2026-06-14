@@ -1,16 +1,27 @@
 import asyncio
 import json
 import os
+import structlog
 from aiokafka import AIOKafkaConsumer
+
+# Настройка логирования в JSON (точно такая же, как в backend)
+structlog.configure(
+    processors=[
+        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.processors.JSONRenderer()
+    ],
+    logger_factory=structlog.PrintLoggerFactory(),
+)
+logger = structlog.get_logger()
 
 
 async def consume():
-    # Читаем переменные из окружения K8s
+    # Читаем переменные из окружения
     kafka_servers = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'kafka-service:9092')
     kafka_topic = os.getenv('KAFKA_TOPIC', 'task-created')
     group_id = os.getenv('KAFKA_GROUP_ID', 'consumer-group')
 
-    print(f"DEBUG: Initializing consumer with servers={kafka_servers}, topic={kafka_topic}, group={group_id}")
+    logger.info("consumer_init", servers=kafka_servers, topic=kafka_topic, group_id=group_id)
 
     consumer = AIOKafkaConsumer(
         kafka_topic,
@@ -20,22 +31,23 @@ async def consume():
     )
 
     await consumer.start()
-    print("DEBUG: Consumer fully started and waiting for messages...")
+    logger.info("consumer_started")
 
     try:
         async for msg in consumer:
-            print(f"DEBUG: Got raw message from partition {msg.partition} at offset {msg.offset}")
             task = msg.value
-            print(f"DEBUG: Parsed task data: {task}", flush=True)
+            # Логируем начало обработки с указанием task_id
+            logger.info("task_processing_started", task_id=task.get("task_id"), partition=msg.partition)
 
             # Логика обработки
             await asyncio.sleep(1)
 
-            print(f"DEBUG: Task {task} processed successfully")
+            logger.info("task_processed_successfully", task_id=task.get("task_id"))
+
     except Exception as e:
-        print(f"ERROR: Exception during consumption: {e}")
+        logger.error("consumer_exception", error=str(e))
     finally:
-        print("DEBUG: Stopping consumer...")
+        logger.info("consumer_stopping")
         await consumer.stop()
 
 

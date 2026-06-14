@@ -11,10 +11,13 @@ spec:
     metadata:
       labels:
         app: backend
+      annotations:
+        fluentbit.io/parser: json
     spec:
+      serviceAccountName: fluent-bit # Добавили связку
       containers:
       - name: backend
-        image: almaz8412/task-tracker:latest  # Тот самый образ, который теперь в Docker Hub
+        image: almaz8412/task-tracker:latest
         ports:
         - containerPort: 8000
         env:

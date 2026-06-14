@@ -11,7 +11,10 @@ spec:
     metadata:
       labels:
         app: kafka-consumer
+      annotations:
+        fluentbit.io/parser: json
     spec:
+      serviceAccountName: fluent-bit
       containers:
       - name: consumer
         image: almaz8412/consumer:latest
@@ -33,7 +36,6 @@ spec:
           value: "postgres"
         - name: PYTHONUNBUFFERED
           value: "1"
-        # Пароль теперь берется из секрета
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
