@@ -1,3 +1,9 @@
+variable "environment" {
+  description = "Тип окружения (test или prod)"
+  type        = string
+  default     = "test"
+}
+
 variable "yc_token" {
   description = "OAuth-токен Яндекса"
   type        = string
