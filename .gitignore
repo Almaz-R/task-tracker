@@ -224,6 +224,8 @@ __marimo__/
 terraform.tfstate
 terraform.tfstate.backup
 terraform.tfvars
+*.tfstate
+*.tfstate.*
 
 # Игнорировать Python и виртуальное окружение
 .venv/
