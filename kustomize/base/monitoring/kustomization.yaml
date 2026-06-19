@@ -9,3 +9,4 @@ resources:
   - opensearch-statefulset.yaml
   - opensearch-dashboards.yaml
   - fluent-bit-config.yaml
+  - fluent-bit-daemonset.yaml
