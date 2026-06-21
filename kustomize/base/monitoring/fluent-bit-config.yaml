@@ -32,7 +32,7 @@ data:
         Host                opensearch-service
         Port                9200
         HTTP_User           admin
-        HTTP_Passwd         Admin12345!
+        HTTP_Passwd         admin
         tls                 On
         tls.verify          Off
         Logstash_Format     On
