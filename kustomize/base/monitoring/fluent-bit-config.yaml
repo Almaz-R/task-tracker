@@ -11,7 +11,7 @@ data:
 
     [INPUT]
         Name              tail
-        Path              /var/log/containers/*.log
+        Path              /var/log/containers/*_task-tracker-*.log
         Exclude_Path      /var/log/containers/fluent-bit*.log
         Parser            cri
         Tag               kube.*

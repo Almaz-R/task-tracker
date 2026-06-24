@@ -12,3 +12,10 @@ patches:
     - op: replace
       path: /spec/template/spec/containers/0/env/2/value
       value: "%(protocol)s://%(domain)s:%(http_port)s/prod/grafana/"
+- target:
+    kind: Deployment
+    name: opensearch-dashboards
+  patch: |-
+    - op: replace
+      path: /spec/template/spec/containers/0/env/1/value
+      value: "/prod/opensearch"
