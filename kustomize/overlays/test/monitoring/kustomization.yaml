@@ -4,6 +4,7 @@ namespace: task-tracker-test
 resources:
 - ../../../base/monitoring
 - ingress.yaml
+- opensearch-dashboards-nodeport.yaml
 patches:
 - target:
     kind: ConfigMap
