@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-provider
+data:
+  dashboards.yaml: |
+    apiVersion: 1
+    providers:
+      - name: task-tracker
+        orgId: 1
+        folder: Task Tracker
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards

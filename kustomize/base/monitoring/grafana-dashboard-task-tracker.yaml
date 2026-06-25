@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-task-tracker
+data:
+  task-tracker.json: |
+    {
+      "title": "Task Tracker Kubernetes Overview",
+      "uid": "task-tracker-overview",
+      "schemaVersion": 39,
+      "version": 1,
+      "refresh": "10s",
+      "panels": [
+        {
+          "type": "stat",
+          "title": "Running Pods",
+          "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+          "targets": [
+            {
+              "expr": "count(kube_pod_status_phase{phase=\"Running\", namespace=~\"task-tracker-test|task-tracker-prod\"})"
+            }
+          ]
+        },
+        {
+          "type": "stat",
+          "title": "Pod Restarts",
+          "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+          "targets": [
+            {
+              "expr": "sum(kube_pod_container_status_restarts_total{namespace=~\"task-tracker-test|task-tracker-prod\"})"
+            }
+          ]
+        },
+        {
+          "type": "timeseries",
+          "title": "CPU Usage",
+          "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+          "targets": [
+            {
+              "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=~\"task-tracker-test|task-tracker-prod\", container!=\"\"}[5m])) by (namespace)"
+            }
+          ]
+        },
+        {
+          "type": "timeseries",
+          "title": "Memory Usage",
+          "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+          "targets": [
+            {
+              "expr": "sum(container_memory_working_set_bytes{namespace=~\"task-tracker-test|task-tracker-prod\", container!=\"\"}) by (namespace)"
+            }
+          ]
+        }
+      ]
+    }

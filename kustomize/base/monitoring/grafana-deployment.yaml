@@ -37,7 +37,22 @@ spec:
         - name: config
           mountPath: /etc/grafana/grafana.ini
           subPath: grafana.ini
+        - name: datasource
+          mountPath: /etc/grafana/provisioning/datasources
+        - name: dashboard-provider
+          mountPath: /etc/grafana/provisioning/dashboards
+        - name: dashboards
+          mountPath: /var/lib/grafana/dashboards
       volumes:
       - name: config
         configMap:
           name: prometheus-grafana
+      - name: datasource
+        configMap:
+          name: grafana-datasource
+      - name: dashboard-provider
+        configMap:
+          name: grafana-dashboard-provider
+      - name: dashboards
+        configMap:
+          name: grafana-dashboard-task-tracker
