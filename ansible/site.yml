@@ -1,40 +1,58 @@
 ---
-- name: Configure webserver
+- name: Configure task-tracker server
   hosts: webservers
   become: yes
+
   tasks:
     - name: Update apt cache
-      apt:
+      ansible.builtin.apt:
         update_cache: yes
         cache_valid_time: 3600
 
-    - name: Install required packages
-      apt:
+    - name: Install system utilities
+      ansible.builtin.apt:
         name:
-          - apt-transport-https
-          - ca-certificates
           - curl
+          - git
+          - htop
+          - ufw
+          - vim
+          - net-tools
+          - ca-certificates
           - gnupg
           - lsb-release
+          - unzip
         state: present
 
-    - name: Add Docker GPG apt Key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
+    - name: Allow SSH in UFW
+      community.general.ufw:
+        rule: allow
+        name: OpenSSH
 
-    - name: Add Docker Repository
-      apt_repository:
-        repo: deb https://download.docker.com/linux/ubuntu jammy stable
-        state: present
+    - name: Allow HTTP ingress NodePort
+      community.general.ufw:
+        rule: allow
+        port: "30088"
+        proto: tcp
 
-    - name: Install Docker
-      apt:
-        name: docker-ce
-        state: present
+    - name: Allow HTTPS ingress NodePort
+      community.general.ufw:
+        rule: allow
+        port: "30443"
+        proto: tcp
 
-    - name: Ensure Docker is started and enabled
-      service:
-        name: docker
-        state: started
-        enabled: yes
+    - name: Enable UFW
+      community.general.ufw:
+        state: enabled
+        policy: allow
+
+    - name: Check k3s service status
+      ansible.builtin.systemd:
+        name: k3s
+      register: k3s_status
+      failed_when: false
+      changed_when: false
+
+    - name: Show k3s status
+      ansible.builtin.debug:
+        msg: "k3s service state is {{ k3s_status.status.ActiveState | default('unknown') }}"
