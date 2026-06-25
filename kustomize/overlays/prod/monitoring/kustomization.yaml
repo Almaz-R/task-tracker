@@ -6,12 +6,16 @@ resources:
 - ingress.yaml
 patches:
 - target:
-    kind: Deployment
+    kind: ConfigMap
     name: prometheus-grafana
   patch: |-
     - op: replace
-      path: /spec/template/spec/containers/0/env/2/value
-      value: "%(protocol)s://%(domain)s:%(http_port)s/prod/grafana/"
+      path: /data/grafana.ini
+      value: |
+        [server]
+        http_port = 3000
+        root_url = %(protocol)s://%(domain)s:%(http_port)s/prod/grafana/
+        serve_from_sub_path = true
 - target:
     kind: Deployment
     name: opensearch-dashboards
