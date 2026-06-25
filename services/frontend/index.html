@@ -9,8 +9,13 @@
 
   <input id="taskName" placeholder="Введите задачу" />
   <button onclick="createTask()">Создать задачу</button>
+  <button onclick="loadTasks()">Обновить список</button>
 
+  <h2>Результат</h2>
   <pre id="result"></pre>
+
+  <h2>Список задач</h2>
+  <ul id="tasks"></ul>
 
   <script>
     const API_BASE = window.location.pathname.startsWith('/prod/')
@@ -27,7 +32,24 @@
 
       const data = await response.json();
       result.textContent = JSON.stringify(data, null, 2);
+      await loadTasks();
     }
+
+    async function loadTasks() {
+      const tasksList = document.getElementById('tasks');
+      tasksList.innerHTML = '';
+
+      const response = await fetch(`${API_BASE}/tasks`);
+      const tasks = await response.json();
+
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.textContent = `#${task.id}: ${task.task_name}`;
+        tasksList.appendChild(li);
+      });
+    }
+
+    loadTasks();
   </script>
 </body>
 </html>

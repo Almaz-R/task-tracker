@@ -1,14 +1,12 @@
 import os
 import json
 import structlog
-import logging
 from fastapi import FastAPI
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 from aiokafka import AIOKafkaProducer
 from prometheus_fastapi_instrumentator import Instrumentator
 
-# Настройка логирования в JSON для вывода в stdout
 structlog.configure(
     processors=[
         structlog.processors.TimeStamper(fmt="iso"),
@@ -18,13 +16,10 @@ structlog.configure(
 )
 logger = structlog.get_logger()
 
-# Инициализируем приложение
 app = FastAPI(root_path=os.getenv("ROOT_PATH", ""))
 
-# Инструментируем приложение
 Instrumentator().instrument(app).expose(app)
 
-# Настройки подключения
 DB_URL = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:5432/{os.getenv('DB_NAME')}"
 KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_BROKER")
 
@@ -55,8 +50,31 @@ async def startup_event():
 @app.on_event("shutdown")
 async def shutdown_event():
     logger.info("app_shutdown_started")
-    await producer.stop()
+    if producer:
+        await producer.stop()
     logger.info("app_shutdown_complete")
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+
+@app.get("/tasks")
+async def get_tasks():
+    logger.info("get_tasks_request_received")
+
+    db = SessionLocal()
+    try:
+        tasks = db.query(Task).order_by(Task.id.desc()).limit(20).all()
+        result = [{"id": task.id, "task_name": task.task_name} for task in tasks]
+        logger.info("tasks_loaded_from_db", count=len(result))
+        return result
+    except Exception as e:
+        logger.error("tasks_loading_failed", error=str(e))
+        raise
+    finally:
+        db.close()
 
 
 @app.post("/tasks")
