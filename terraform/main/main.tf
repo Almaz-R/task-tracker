@@ -23,6 +23,7 @@ resource "yandex_compute_instance" "vm" {
   }
 
   metadata = {
-    ssh-keys = "ubuntu:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGkPmTnIvpn0EvhRdJAoJyfsHDeSX0AQ9Grz8vVgCoyS"
+    ssh-keys           = "ubuntu:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGkPmTnIvpn0EvhRdJAoJyfsHDeSX0AQ9Grz8vVgCoyS"
+    serial-port-enable = "1"
   }
 }
