@@ -11,6 +11,10 @@ spec:
         env: test
       - name: backend
         env: prod
+      - name: frontend
+        env: test
+      - name: frontend
+        env: prod
       - name: kafka
         env: test
       - name: kafka

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Task Tracker</title>
+</head>
+<body>
+  <h1>Task Tracker</h1>
+
+  <input id="taskName" placeholder="Введите задачу" />
+  <button onclick="createTask()">Создать задачу</button>
+
+  <pre id="result"></pre>
+
+  <script>
+    const API_BASE = window.location.pathname.startsWith('/prod/')
+      ? '/prod/backend'
+      : '/test/backend';
+
+    async function createTask() {
+      const taskName = document.getElementById('taskName').value;
+      const result = document.getElementById('result');
+
+      const response = await fetch(`${API_BASE}/tasks?task_name=${encodeURIComponent(taskName)}`, {
+        method: 'POST'
+      });
+
+      const data = await response.json();
+      result.textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
