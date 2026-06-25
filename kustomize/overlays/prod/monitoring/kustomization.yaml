@@ -17,10 +17,3 @@ patches:
         http_port = 3000
         root_url = %(protocol)s://%(domain)s:%(http_port)s/prod/grafana/
         serve_from_sub_path = true
-- target:
-    kind: Deployment
-    name: opensearch-dashboards
-  patch: |-
-    - op: replace
-      path: /spec/template/spec/containers/0/env/1/value
-      value: "/prod/opensearch"
