@@ -87,15 +87,25 @@ async def create_task(task_name: str):
         db.add(new_task)
         db.commit()
         db.refresh(new_task)
-        logger.info("task_saved_to_db", task_id=new_task.id)
+
+        logger.info(
+            "task_saved_to_db",
+            task_id=new_task.id,
+            task_name=task_name
+        )
 
         message = {"task_id": new_task.id, "task_name": task_name}
         await producer.send_and_wait("task-created", json.dumps(message).encode("utf-8"))
-        logger.info("task_sent_to_kafka", task_id=new_task.id)
+
+        logger.info(
+            "task_sent_to_kafka",
+            task_id=new_task.id,
+            task_name=task_name
+        )
 
         return {"status": "success", "task_id": new_task.id}
     except Exception as e:
-        logger.error("task_creation_failed", error=str(e))
+        logger.error("task_creation_failed", task_name=task_name, error=str(e))
         raise
     finally:
         db.close()
