@@ -13,3 +13,4 @@ resources:
   - grafana-datasource.yaml
   - grafana-dashboard-provider.yaml
   - grafana-dashboard-task-tracker.yaml
+  - opensearch-cleanup-cronjob.yaml

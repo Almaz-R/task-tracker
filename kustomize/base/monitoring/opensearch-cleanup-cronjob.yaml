@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: opensearch-cleanup
+spec:
+  schedule: "0 2 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: cleanup
+            image: alpine:3.20
+            command:
+            - /bin/sh
+            - -c
+            - |
+              apk add --no-cache curl coreutils
+              OLD_INDEX=$(date -d "7 days ago" +k8s-logs-%Y.%m.%d)
+              echo "Deleting index: ${OLD_INDEX}"
+              curl -k -u admin:admin -X DELETE "https://opensearch-service:9200/${OLD_INDEX}" || true
