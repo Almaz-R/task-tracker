@@ -236,3 +236,5 @@ __pycache__/
 *.pyc*.zip
 terraform/*.zip
 terraform/**/*.zip
+docs/interview.md
+docs/troubleshooting.md
