@@ -1,16 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: task-tracker-prod
+
 resources:
 - ../../../base/backend
 - ingress.yaml
-patches:
-- target:
-    kind: Deployment
-    name: backend-deployment
-  patch: |-
-    - op: add
-      path: /spec/template/spec/containers/0/env/-
-      value:
-        name: ROOT_PATH
-        value: "/prod/backend"
+
+images:
+- name: almaz8412/task-tracker
+  newTag: prod

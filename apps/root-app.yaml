@@ -9,28 +9,40 @@ spec:
       elements:
       - name: backend
         env: test
+        revision: develop
       - name: backend
         env: prod
+        revision: main
       - name: frontend
         env: test
+        revision: develop
       - name: frontend
         env: prod
+        revision: main
       - name: kafka
         env: test
+        revision: develop
       - name: kafka
         env: prod
+        revision: main
       - name: database
         env: test
+        revision: develop
       - name: database
         env: prod
+        revision: main
       - name: consumer
         env: test
+        revision: develop
       - name: consumer
         env: prod
+        revision: main
       - name: monitoring
         env: test
+        revision: develop
       - name: monitoring
         env: prod
+        revision: main
   template:
     metadata:
       name: '{{env}}-{{name}}'
@@ -38,7 +50,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/Almaz-R/task-tracker.git
-        targetRevision: main
+        targetRevision: '{{revision}}'
         path: kustomize/overlays/{{env}}/{{name}}
       destination:
         server: https://kubernetes.default.svc
