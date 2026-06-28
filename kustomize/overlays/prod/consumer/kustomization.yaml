@@ -7,4 +7,4 @@ resources:
 
 images:
 - name: almaz8412/consumer
-  newTag: prod-60310c0
+  newTag: prod-cba3fa1
