@@ -226,8 +226,13 @@ terraform.tfstate.backup
 terraform.tfvars
 *.tfstate
 *.tfstate.*
+*.zip
+terraform/*.zip
+terraform/**/*.zip
 
 # Игнорировать Python и виртуальное окружение
 .venv/
 __pycache__/
-*.pyc
+*.pyc*.zip
+terraform/*.zip
+terraform/**/*.zip
