@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -6,6 +6,7 @@
 </head>
 <body>
   <h1>Task Tracker</h1>
+  <p><b>Environment:</b> TEST / develop</p>
 
   <input id="taskName" placeholder="Введите задачу" />
   <button onclick="createTask()">Создать задачу</button>
@@ -18,34 +19,25 @@
   <ul id="tasks"></ul>
 
   <script>
-    const API_BASE = window.location.pathname.startsWith('/prod/')
-      ? '/prod/backend'
-      : '/test/backend';
-
     async function createTask() {
-      const taskName = document.getElementById('taskName').value;
-      const result = document.getElementById('result');
-
-      const response = await fetch(`${API_BASE}/tasks?task_name=${encodeURIComponent(taskName)}`, {
-        method: 'POST'
+      const taskName = document.getElementById("taskName").value;
+      const response = await fetch("/test/backend/tasks?task_name=" + encodeURIComponent(taskName), {
+        method: "POST"
       });
-
       const data = await response.json();
-      result.textContent = JSON.stringify(data, null, 2);
+      document.getElementById("result").textContent = JSON.stringify(data, null, 2);
       await loadTasks();
     }
 
     async function loadTasks() {
-      const tasksList = document.getElementById('tasks');
-      tasksList.innerHTML = '';
-
-      const response = await fetch(`${API_BASE}/tasks`);
-      const tasks = await response.json();
-
-      tasks.forEach(task => {
-        const li = document.createElement('li');
-        li.textContent = `#${task.id}: ${task.task_name}`;
-        tasksList.appendChild(li);
+      const response = await fetch("/test/backend/tasks");
+      const data = await response.json();
+      const list = document.getElementById("tasks");
+      list.innerHTML = "";
+      data.forEach(task => {
+        const item = document.createElement("li");
+        item.textContent = `#${task.id}: ${task.task_name}`;
+        list.appendChild(item);
       });
     }
 
