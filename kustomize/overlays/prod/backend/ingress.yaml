@@ -2,14 +2,16 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: backend-ingress
-  namespace: task-tracker-prod # <--- ВАЖНО: другой неймспейс
+  namespace: task-tracker-prod
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
   - http:
       paths:
-      - path: /prod/backend
-        pathType: Prefix
+      - path: /prod/backend(/|$)(.*)
+        pathType: ImplementationSpecific
         backend:
           service:
             name: backend-service
