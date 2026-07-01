@@ -8,4 +8,4 @@ resources:
 
 images:
 - name: almaz8412/task-tracker-frontend
-  newTag: prod-77dee93
+  newTag: prod-4719f55
