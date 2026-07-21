@@ -5,7 +5,7 @@ metadata:
   namespace: task-tracker-test
 spec:
   selector:
-    app: backend-broken
+    app: backend
   ports:
     - protocol: TCP
       port: 80
