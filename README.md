@@ -189,7 +189,5 @@ terraform/
 
 Almaz Rakhmatullin
 
-DevOps learning project and interview preparation platform.
-
 ```
 ```
